@@ -1,0 +1,47 @@
+name: System Information Collector
+
+on:
+  workflow_dispatch:
+
+jobs:
+  system-info:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: System Information
+        run: |
+          echo "========== OS Information =========="
+          uname -a
+          cat /etc/os-release
+          
+          echo -e "\n========== CPU Information =========="
+          lscpu
+          
+          echo -e "\n========== Memory Information =========="
+          free -h
+          
+          echo -e "\n========== Disk Space =========="
+          df -h
+          
+          echo -e "\n========== Network Information =========="
+          ip addr show
+          ip route show
+          
+          echo -e "\n========== Public IP Address =========="
+          curl -s https://api.ipify.org
+          
+          echo -e "\n========== Environment Variables =========="
+          printenv
+          
+          echo -e "\n========== GitHub Actions Runner Info =========="
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner Arch: ${{ runner.arch }}"
+          echo "Runner Name: ${{ runner.name }}"
+          echo "Repository: ${{ github.repository }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Workflow: ${{ github.workflow }}"
+          echo "Run ID: ${{ github.run_id }}"
+          echo "Run Number: ${{ github.run_number }}"
